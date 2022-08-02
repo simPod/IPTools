@@ -2,6 +2,7 @@
 namespace IPTools;
 
 use IPTools\Exception\IpException;
+use LogicException;
 
 /**
  * @author Safarov Alisher <alisher.safarov@outlook.com>
@@ -46,7 +47,7 @@ class IP
 	}
 
 	/**
-	 * @param string ip
+	 * @param string $ip
 	 * @return IP
 	 */
 	public static function parse($ip)
@@ -102,10 +103,9 @@ class IP
 	}
 
 	/**
-	 * @param string|int $longIP
 	 * @return IP
 	 */
-	public static function parseLong($longIP, $version=self::IP_V4)
+	public static function parseLong(int|string $longIP, $version=self::IP_V4)
 	{
 		if ($version === self::IP_V4) {
 			$ip = new self(long2ip($longIP));
@@ -131,17 +131,18 @@ class IP
 	}
 
 	/**
+	 * @phpstan-return IP::IP_V4|IP::IP_V6
 	 * @return string
 	 */
 	public function getVersion()
 	{
-		$version = '';
-
 		if (filter_var(inet_ntop($this->in_addr), FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
 			$version = self::IP_V4;
 		} elseif (filter_var(inet_ntop($this->in_addr), FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
 			$version = self::IP_V6;
-		}
+		} else {
+            throw new LogicException("Invalid IP address format");
+        }
 
 		return $version;
 	}
