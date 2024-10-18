@@ -14,8 +14,7 @@
         "ext-bcmath": "*"
     },
     "require-dev": {
-        "php-coveralls/php-coveralls": "^2.5",
-        "phpunit/phpunit": "^9.0"
+        "phpunit/phpunit": "^9.6"
     },
     "autoload": {
         "psr-4": {
