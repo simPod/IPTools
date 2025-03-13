@@ -1,6 +1,7 @@
 <?php
 namespace IPTools;
 
+use IPTools\Exception\IpException;
 use IPTools\Exception\NetworkException;
 use ReturnTypeWillChange;
 
@@ -47,6 +48,7 @@ class Network implements \Iterator, \Countable
 	/**
 	 * @param string $data
 	 * @return Network
+	 * @throws IpException
 	 */
 	public static function parse(string $data)
 	{

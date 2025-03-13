@@ -49,6 +49,7 @@ class IP
 	/**
 	 * @param string $ip
 	 * @return IP
+	 * @throws IpException
 	 */
 	public static function parse($ip)
 	{
