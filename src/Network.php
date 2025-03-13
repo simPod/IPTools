@@ -1,6 +1,7 @@
 <?php
 namespace IPTools;
 
+use IPTools\Exception\IpException;
 use IPTools\Exception\NetworkException;
 use ReturnTypeWillChange;
 
@@ -47,14 +48,15 @@ class Network implements \Iterator, \Countable
 	/**
 	 * @param string $data
 	 * @return Network
+	 * @throws IpException
 	 */
-	public static function parse($data)
+	public static function parse(string $data)
 	{
 		if (preg_match('~^(.+?)/(\d+)$~', $data, $matches)) {
 			$ip      = IP::parse($matches[1]);
 			$netmask = self::prefix2netmask((int)$matches[2], $ip->getVersion());
 		} elseif (strpos($data,' ')) {
-			list($ip, $netmask) = explode(' ', $data, 2);
+			[$ip, $netmask] = explode(' ', $data, 2);
 			$ip      = IP::parse($ip);
 			$netmask = IP::parse($netmask);
 		} else {
